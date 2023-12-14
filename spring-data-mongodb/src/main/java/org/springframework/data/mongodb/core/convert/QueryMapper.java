@@ -674,12 +674,13 @@ public class QueryMapper {
 		}
 
 		if (!documentField.getProperty().isMap() && sourceValue instanceof Document document) {
-			return new Document(document.entrySet().stream().collect(Collectors.toMap(Entry::getKey, entry -> {
-				if (isKeyword(entry.getKey())) {
-					return getMappedValue(documentField, entry.getValue());
+
+			return BsonUtils.mapValues(document, (key, val) -> {
+				if (isKeyword(key)) {
+					return getMappedValue(documentField, val);
 				}
-				return entry.getValue();
-			})));
+				return val;
+			});
 		}
 
 		return valueConverter.write(value, conversionContext);
