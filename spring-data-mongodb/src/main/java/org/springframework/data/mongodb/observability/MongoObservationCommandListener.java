@@ -105,7 +105,7 @@ public class MongoObservationCommandListener implements CommandListener {
 		}
 
 		MongoHandlerContext observationContext = new MongoHandlerContext(connectionString, event, requestContext);
-		observationContext.setRemoteServiceName("mongo");
+		observationContext.setRemoteServiceName("mongo-%s".formatted(databaseName));
 
 		Observation observation = MongoObservation.MONGODB_COMMAND_OBSERVATION
 				.observation(this.observationRegistry, () -> observationContext) //
